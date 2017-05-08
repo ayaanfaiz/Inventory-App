@@ -8,4 +8,5 @@
     <string name="quantity">Quantity</string>
     <string name="image">Select an Image</string>
     <string name="browse_image">Browse Image</string>
+    <string name="empty_list">No product in storage. Click add button to add product.</string>
 </resources>

@@ -28,12 +28,6 @@ public class StorageProvider extends ContentProvider{
         uriMatcher.addURI(StorageContract.CONTENT_AUTHORITY,StorageContract.PATH_STORAGE + "/#",STORAGE_ID);
     }
 
-
-
-
-
-
-
     @Override
     public boolean onCreate() {
         mDbHelper = new StorageDbHelper(getContext());
@@ -93,8 +87,8 @@ public class StorageProvider extends ContentProvider{
                     getContext().getContentResolver().notifyChange(uri,null);
                     return ContentUris.withAppendedId(uri,id);
                 }
-                default:
-                    throw new IllegalArgumentException("Cannot insert values");
+            default:
+                throw new IllegalArgumentException("Cannot insert values");
         }
     }
 
@@ -130,6 +124,7 @@ public class StorageProvider extends ContentProvider{
             case STORAGE:
                 rowUpdate = sqLiteDatabase.update(StorageEntry.TABLE_NAME,contentValues,s,strings);
                 if ( rowUpdate != 0 ){
+                    getContext().getContentResolver().notifyChange(uri,null);
                     return rowUpdate;
                 }
             case STORAGE_ID:
@@ -137,10 +132,11 @@ public class StorageProvider extends ContentProvider{
                 strings = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowUpdate = sqLiteDatabase.update(StorageEntry.TABLE_NAME,contentValues,s,strings);
                 if ( rowUpdate != 0 ){
+                    getContext().getContentResolver().notifyChange(uri,null);
                     return rowUpdate;
                 }
-                default:
-                    throw new IllegalArgumentException("Cannot update with uri"+uri);
+            default:
+                throw new IllegalArgumentException("Cannot update with uri"+uri);
         }
     }
 

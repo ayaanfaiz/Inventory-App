@@ -26,7 +26,8 @@ public class StorageDbHelper extends SQLiteOpenHelper{
                 +StorageEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL,"
                 +StorageEntry.COLUMN_PRODUCT_QUANTITY + " INT NOT NULL,"
                 +StorageEntry.COLUMN_PRODUCT_IMAGE + " TEXT, "
-                +StorageEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL DEFAULT 0);";
+                +StorageEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL DEFAULT 0,"
+                +StorageEntry.COLUMN_PHONE_NUMBER + " INTEGER NOT NULL);";
         sqLiteDatabase.execSQL(CREATE_TABLE);
     }
 

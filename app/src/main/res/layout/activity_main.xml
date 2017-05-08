@@ -19,5 +19,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        class = "com.fragment.NavigationDrawerFragment"/>
+        class = "com.fragment.NavigationDrawerFragment"
+        android:src="@drawable/lightbulb"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_list"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="16dp"
+        android:id="@+id/empty_list"/>
+
 </RelativeLayout>

@@ -82,7 +82,8 @@
                 android:id="@+id/edit_quantity"
                 android:text="0"
                 android:textAlignment="center"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:maxLength="4"/>
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -95,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:id="@+id/product_phone_number"/>
+            android:id="@+id/product_phone_number"
+            android:maxLength="10"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,15 +1,10 @@
 package com.example.ayaan.inventoryapp;
-
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.app.LoaderManager;
-import android.support.v4.app.NavUtils;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.support.v7.app.AlertDialog;
@@ -23,23 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.ayaan.inventoryapp.data.StorageContract;
 import com.example.ayaan.inventoryapp.data.StorageContract.StorageEntry;
-import com.example.ayaan.inventoryapp.data.StorageProvider;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static android.R.attr.name;
-import static android.os.Build.VERSION_CODES.M;
-
 public class StorageEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private int PICK_IMAGE_REQUEST = 1;
     private Uri mCurrentUri;
+    String image;
     private EditText mName;
     private EditText mQuantity;
     private EditText mPrice;
@@ -48,7 +32,6 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
     private Button subtract;
     private EditText mNumber;
     private Boolean image_status;
-    Uri mImage;
     private Button mOrderMore;
     private  static final int existingStorage = 0;
     @Override
@@ -102,12 +85,6 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
-
-
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, PICK_IMAGE_REQUEST);
             }
@@ -134,7 +111,6 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -196,55 +172,17 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
             int quantityColumnIndex = data.getColumnIndex(StorageEntry.COLUMN_PRODUCT_QUANTITY);
             int priceColumnIndex = data.getColumnIndex(StorageEntry.COLUMN_PRODUCT_PRICE);
             int numberColumnIndex = data.getColumnIndex(StorageEntry.COLUMN_PHONE_NUMBER);
+            int imgi = data.getColumnIndex(StorageEntry.COLUMN_PRODUCT_IMAGE);
+
             String name = data.getString(nameColumnindex);
             String quantity = data.getString(quantityColumnIndex);
             String price = data.getString(priceColumnIndex);
             String number = data.getString(numberColumnIndex);
+             image = data.getString(imgi);
             mName.setText(name);
             mPrice.setText(price);
             mQuantity.setText(quantity);
             mNumber.setText(number);
-            //mImageView.setImageBitmap(getBitmap(mCurrentUri));
-        }
-    }
-    public Bitmap getBitmap(Uri uri) {
-        if (uri == null || uri.toString().isEmpty())
-            return null;
-        int targetW = mImageView.getWidth();
-        int targetH = mImageView.getHeight();
-        InputStream inputStream = null;
-        try {
-            inputStream = this.getContentResolver().openInputStream(uri);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(inputStream, null, options);
-            inputStream.close();
-
-            int imageW = options.outWidth;
-            int imageH = options.outHeight;
-
-            int scale = Math.min(imageW / targetW, imageH / targetH);
-
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = scale;
-            options.inPurgeable = true;
-            inputStream = this.getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
-            inputStream.close();
-            return bitmap;
-
-        } catch (FileNotFoundException e) {
-            Log.e("Failed to load image", ":(");
-            return null;
-        } catch (Exception e) {
-            Log.e("Image load failed", ":(");
-            return null;
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                Log.e("Stream Close", "Failed");
-            }
         }
     }
     @Override
@@ -254,15 +192,14 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
         mPrice.setText("");
     }
     private void saveProduct(){
-        final int Storage_Loader = 0;
         String name = mName.getText().toString().trim();
         String price = mPrice.getText().toString().trim();
         String quantity = mQuantity.getText().toString().trim();
-        String image = "";
         String number = mNumber.getText().toString().trim();
-        if (mImage != null)
+
+        if (image!=null)
         {
-            image = mImage.toString();
+            image = image.toString();
         }
         if(TextUtils.isEmpty(name) || TextUtils.isEmpty(price) || !image_status && mCurrentUri !=null || TextUtils.isEmpty(number))
         {
@@ -285,7 +222,6 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
         else {
             int rowAffected = getContentResolver().update(mCurrentUri,contentValues,null,null);
             if (rowAffected == 0) {
-                // If no rows were affected, then there was an error with the update.
                 Toast.makeText(this, "Product Update Failed",
                         Toast.LENGTH_SHORT).show();
             }
@@ -297,7 +233,7 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
     {
         if (reqCode == PICK_IMAGE_REQUEST && resCode == RESULT_OK)
         {
-            mImage = intent.getData();
+            image = intent.getData().toString();
         }
         super.onActivityResult(reqCode,resCode,intent);
     }

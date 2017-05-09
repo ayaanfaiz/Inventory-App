@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +14,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.ayaan.inventoryapp.data.StorageContract;
 import com.example.ayaan.inventoryapp.data.StorageContract.StorageEntry;
-
-import static android.R.attr.button;
 import static com.example.ayaan.inventoryapp.R.id.product_image;
-import static com.example.ayaan.inventoryapp.R.string.product_name;
-
 /**
  * Created by AYAAN on 5/4/2017.
  */

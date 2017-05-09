@@ -20,17 +20,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.example.ayaan.inventoryapp.data.StorageContract;
 import com.example.ayaan.inventoryapp.data.StorageContract.StorageEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     StorageAdapter mStorageAdapter;
     private static final int Storage_Loader = 0;
-//    Button button = (Button)findViewById(R.id.sale_button);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 contentValues.put(StorageEntry.COLUMN_PRODUCT_NAME,"Laptop");
                 contentValues.put(StorageEntry.COLUMN_PRODUCT_PRICE,"25000");
                 contentValues.put(StorageEntry.COLUMN_PRODUCT_QUANTITY,"22");
-                //contentValues.put(StorageEntry.COLUMN_PRODUCT_IMAGE,String.valueOf(getDrawable(R.drawable.macbook)));
                 contentValues.put(StorageEntry.COLUMN_PHONE_NUMBER,"8439882502");
                 Uri uri1 = Uri.parse("android.resource://com.example.ayaan.inventoryapp/drawable/macbook");
                 contentValues.put(StorageEntry.COLUMN_PRODUCT_IMAGE,uri1.toString());

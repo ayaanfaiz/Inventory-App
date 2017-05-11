@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.ayaan.inventoryapp.data.StorageContract.StorageEntry;
+
+import static android.R.attr.name;
+
 public class StorageEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private int PICK_IMAGE_REQUEST = 1;
     private Uri mCurrentUri;
@@ -33,11 +36,13 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
     private EditText mNumber;
     private Boolean image_status;
     private Button mOrderMore;
+    private ImageView mPreview;
     private  static final int existingStorage = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage_editor);
+        mPreview = (ImageView)findViewById(R.id.preview_image);
         mOrderMore = (Button)findViewById(R.id.order_more);
         final Intent intent = getIntent();
         mCurrentUri = intent.getData();
@@ -173,12 +178,17 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
             int priceColumnIndex = data.getColumnIndex(StorageEntry.COLUMN_PRODUCT_PRICE);
             int numberColumnIndex = data.getColumnIndex(StorageEntry.COLUMN_PHONE_NUMBER);
             int imgi = data.getColumnIndex(StorageEntry.COLUMN_PRODUCT_IMAGE);
-
             String name = data.getString(nameColumnindex);
             String quantity = data.getString(quantityColumnIndex);
             String price = data.getString(priceColumnIndex);
             String number = data.getString(numberColumnIndex);
              image = data.getString(imgi);
+            if(image.startsWith("content://media/external/image")){
+                mPreview.setImageURI(Uri.parse(image));
+            }
+            else {
+                mPreview.setImageResource(R.drawable.noimage);
+            }
             mName.setText(name);
             mPrice.setText(price);
             mQuantity.setText(quantity);
@@ -234,6 +244,7 @@ public class StorageEditor extends AppCompatActivity implements LoaderManager.Lo
         if (reqCode == PICK_IMAGE_REQUEST && resCode == RESULT_OK)
         {
             image = intent.getData().toString();
+            mPreview.setImageURI(Uri.parse(String.valueOf(image)));
         }
         super.onActivityResult(reqCode,resCode,intent);
     }

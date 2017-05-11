@@ -109,12 +109,21 @@
 </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp">
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/preview_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/noimage"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/preview_image"
             android:text="Order More"
-            android:id="@+id/order_more"/>
+            android:id="@+id/order_more"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
     </LinearLayout>
